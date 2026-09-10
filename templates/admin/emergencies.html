@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Emergency Alerts{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Emergency Alerts</h1>
+  <p>Live responder view of all open and completed emergencies.</p>
+</section>
+
+<div class="card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Emergency ID</th>
+        <th>Patient</th>
+        <th>Date/Time</th>
+        <th>Risk Level</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emergency in emergencies %}
+      <tr>
+        <td>#{{ emergency.id }}</td>
+        <td>{{ emergency.user.full_name or emergency.user.username }}</td>
+        <td>{{ emergency.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>{{ emergency.risk_level }}</td>
+        <td><a href="https://www.google.com/maps?q={{ emergency.latitude }},{{ emergency.longitude }}" target="_blank">Map</a></td>
+        <td>{{ emergency.status }}</td>
+        <td><a href="{{ url_for('admin.emergency_details', emergency_id=emergency.id) }}" class="primary-btn small-btn">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

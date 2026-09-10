@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Emergency Risk Assessment{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>AI Emergency Risk Assessment</h1>
+  <p>AI risk classification is for educational demonstration only and should not be used for medical diagnosis.</p>
+</section>
+
+<div class="card assessment-card">
+  <form method="POST" action="{{ url_for('symptoms.symptoms_page') }}" class="symptom-form">
+    <div class="symptom-grid">
+      <label><input type="checkbox" name="chest_pain" /> Chest pain</label>
+      <label><input type="checkbox" name="difficulty_breathing" /> Difficulty breathing</label>
+      <label><input type="checkbox" name="unconsciousness" /> Unconsciousness</label>
+      <label><input type="checkbox" name="severe_bleeding" /> Severe bleeding</label>
+      <label><input type="checkbox" name="dizziness" /> Dizziness</label>
+      <label><input type="checkbox" name="fever" /> Fever</label>
+      <label><input type="checkbox" name="vomiting" /> Vomiting</label>
+      <label><input type="checkbox" name="weakness" /> Weakness</label>
+      <label><input type="checkbox" name="confusion" /> Confusion</label>
+      <label><input type="checkbox" name="severe_headache" /> Severe headache</label>
+    </div>
+
+    <button type="submit" class="primary-btn">Assess Emergency Risk</button>
+  </form>
+</div>
+
+{% if result %}
+<div class="result-card {% if result.risk_level == 'HIGH' %}danger-card{% elif result.risk_level == 'MEDIUM' %}warning-card{% else %}success-card{% endif %}">
+  <h3>Risk Level: {{ result.risk_level }}</h3>
+  <p>{{ result.safety_message }}</p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Emergency{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Emergency Assistance</h1>
+  <p>This is a simulated emergency workflow for a college prototype.</p>
+</section>
+
+{% if emergency %}
+  <div class="result-card success-card">
+    <h3>🚑 Emergency assistance request created.</h3>
+    <p><strong>Request ID:</strong> {{ ambulance_request.request_id }}</p>
+    <p><strong>Patient:</strong> {{ user.full_name or user.username }}</p>
+    <p><strong>Location:</strong> <a href="{{ map_link }}" target="_blank">Open map</a></p>
+    <p><strong>Status:</strong> {{ emergency.status }}</p>
+    <p><strong>Risk Level:</strong> {{ emergency.risk_level }}</p>
+  </div>
+{% endif %}
+
+<div class="card emergency-form-card">
+  <h2>Activate Emergency Assistance</h2>
+  <div class="info-box warning-box">
+    This application is a prototype for emergency assistance and does not replace professional medical advice or emergency services. In a real emergency, contact your local emergency number.
+  </div>
+
+  <div class="confirm-box">
+    <p>Are you sure you want to activate emergency assistance?</p>
+    <div class="button-row">
+      <button class="secondary-btn" type="button" onclick="history.back()">CANCEL</button>
+      <button class="danger-btn" id="activateEmergencyBtn">ACTIVATE EMERGENCY</button>
+    </div>
+  </div>
+
+  <div id="locationMessage" class="alert-box hidden"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/emergency.js') }}"></script>
+{% endblock %}

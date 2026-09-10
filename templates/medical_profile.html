@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Medical Profile{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Medical Profile</h1>
+  <p>Keep basic medical information ready for emergency support.</p>
+</section>
+
+<div class="card">
+  <form method="POST" class="form-grid">
+    <label>
+      <span>Blood group</span>
+      <input type="text" name="blood_group" value="{{ user.blood_group or '' }}" />
+    </label>
+    <label>
+      <span>Allergies</span>
+      <textarea name="allergies" rows="3">{{ user.allergies or '' }}</textarea>
+    </label>
+    <label>
+      <span>Existing medical conditions</span>
+      <textarea name="existing_conditions" rows="3">{{ user.existing_conditions or '' }}</textarea>
+    </label>
+    <label>
+      <span>Current medications</span>
+      <textarea name="current_medications" rows="3">{{ user.current_medications or '' }}</textarea>
+    </label>
+    <label>
+      <span>Emergency notes</span>
+      <textarea name="emergency_notes" rows="3">{{ user.emergency_notes or '' }}</textarea>
+    </label>
+    <button type="submit" class="primary-btn">Save Medical Information</button>
+  </form>
+</div>
+{% endblock %}

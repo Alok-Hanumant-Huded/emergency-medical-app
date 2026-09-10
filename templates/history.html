@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Emergency History{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Emergency History</h1>
+  <p>Review your emergency activity and previous risk assessments.</p>
+</section>
+
+<div class="card">
+  {% if emergencies %}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Risk Level</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for emergency in emergencies %}
+          <tr>
+            <td>{{ emergency.timestamp.strftime('%Y-%m-%d') }}</td>
+            <td>{{ emergency.timestamp.strftime('%H:%M:%S') }}</td>
+            <td>{{ emergency.risk_level }}</td>
+            <td><a href="https://www.google.com/maps?q={{ emergency.latitude }},{{ emergency.longitude }}" target="_blank">Map</a></td>
+            <td>{{ emergency.status }}</td>
+            <td>{{ emergency.details or 'Emergency request' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No emergency history available yet.</p>
+  {% endif %}
+</div>
+
+{% if emergency %}
+<div class="card detail-card">
+  <h2>Emergency Record Details</h2>
+  <p><strong>Timestamp:</strong> {{ emergency.timestamp }}</p>
+  <p><strong>Location:</strong> <a href="{{ map_link }}" target="_blank">{{ map_link }}</a></p>
+  <p><strong>Risk level:</strong> {{ emergency.risk_level }}</p>
+  <p><strong>Symptoms:</strong> {{ emergency.symptoms or 'Not provided' }}</p>
+  <p><strong>Current status:</strong> {{ emergency.status }}</p>
+  <p><strong>Simulated ambulance status:</strong> {{ emergency.ambulance_request.status if emergency.ambulance_request else 'Not assigned' }}</p>
+</div>
+{% endif %}
+{% endblock %}

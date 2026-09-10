@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="dashboard-header">
+  <div>
+    <p class="eyebrow">Welcome</p>
+    <h1>Hello, {{ user.full_name or user.username }}</h1>
+  </div>
+</section>
+
+<div class="emergency-banner">
+  <button class="emergency-btn" id="mainEmergencyButton" onclick="location.href='{{ url_for('emergency.emergency_view') }}'">
+    🚨 EMERGENCY
+  </button>
+</div>
+
+<div class="status-grid">
+  <div class="card">
+    <h3>Current location status</h3>
+    <p id="locationStatus">Location not checked yet.</p>
+    <button class="secondary-btn small-btn" id="locationBtn">Use my location</button>
+  </div>
+
+  <div class="card">
+    <h3>Emergency contacts</h3>
+    {% if contacts %}
+      <ul class="contact-list">
+        {% for contact in contacts %}
+          <li>{{ contact.name }} - {{ contact.relationship }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No emergency contacts added yet.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h3>Recent emergency alerts</h3>
+    {% if recent_alerts %}
+      <ul class="alert-list">
+        {% for alert in recent_alerts %}
+          <li>
+            <strong>{{ alert.timestamp.strftime('%d %b %Y') }}</strong>
+            <span>{{ alert.risk_level }} / {{ alert.status }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No recent alerts.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h3>AI risk assessment</h3>
+    <p>AI risk classification is for educational demonstration only and should not be used for medical diagnosis.</p>
+    <a href="{{ url_for('symptoms.symptoms_page') }}" class="text-link">Try symptom assessment</a>
+  </div>
+
+  <div class="card large-card">
+    <h3>Basic medical information</h3>
+    <p><strong>Blood group:</strong> {{ user.blood_group or 'Not added' }}</p>
+    <p><strong>Allergies:</strong> {{ user.allergies or 'Not added' }}</p>
+    <p><strong>Conditions:</strong> {{ user.existing_conditions or 'Not added' }}</p>
+    <p><strong>Medications:</strong> {{ user.current_medications or 'Not added' }}</p>
+  </div>
+</div>
+{% endblock %}

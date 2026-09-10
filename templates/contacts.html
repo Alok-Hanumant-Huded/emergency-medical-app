@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Emergency Contacts{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Emergency Contacts</h1>
+  <p>Save trusted people who can be notified in case of emergency.</p>
+</section>
+
+<div class="grid-two">
+  <div class="card">
+    <h2>{% if edit_contact %}Edit Contact{% else %}Add Contact{% endif %}</h2>
+    <form method="POST" action="{% if edit_contact %}{{ url_for('user.edit_contact', contact_id=edit_contact.id) }}{% else %}{{ url_for('user.contacts') }}{% endif %}" class="form-grid">
+      <label>
+        <span>Name</span>
+        <input type="text" name="name" value="{{ edit_contact.name if edit_contact else '' }}" required />
+      </label>
+      <label>
+        <span>Phone number</span>
+        <input type="text" name="phone" value="{{ edit_contact.phone if edit_contact else '' }}" required />
+      </label>
+      <label>
+        <span>Relationship</span>
+        <input type="text" name="relationship" value="{{ edit_contact.relationship if edit_contact else '' }}" required />
+      </label>
+      <button type="submit" class="primary-btn">{% if edit_contact %}Update Contact{% else %}Add Contact{% endif %}</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Saved contacts</h2>
+    {% if contacts %}
+      <div class="contact-cards">
+        {% for contact in contacts %}
+          <div class="mini-card">
+            <h3>{{ contact.name }}</h3>
+            <p>{{ contact.phone }}</p>
+            <p>{{ contact.relationship }}</p>
+            <div class="button-row compact-row">
+              <a href="{{ url_for('user.edit_contact', contact_id=contact.id) }}" class="secondary-btn small-btn">Edit</a>
+              <form method="POST" action="{{ url_for('user.delete_contact', contact_id=contact.id) }}">
+                <button type="submit" class="danger-btn small-btn">Delete</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No contacts added yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

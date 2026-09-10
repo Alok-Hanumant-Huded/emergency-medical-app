@@ -1,0 +1,17 @@
+chest_pain,difficulty_breathing,unconsciousness,severe_bleeding,dizziness,fever,vomiting,weakness,confusion,severe_headache,risk_level
+0,0,0,0,0,0,0,0,0,0,LOW
+1,1,0,0,1,0,0,1,0,0,HIGH
+1,1,1,1,1,0,1,1,1,1,HIGH
+0,0,0,0,0,1,0,0,0,0,LOW
+1,1,1,0,1,0,1,1,1,0,HIGH
+0,0,0,0,1,1,0,0,0,0,MEDIUM
+1,0,1,1,0,0,0,0,0,0,HIGH
+0,0,0,0,0,0,0,1,0,0,LOW
+1,1,0,0,1,0,1,1,0,1,HIGH
+0,0,0,0,0,1,0,0,0,0,LOW
+1,1,1,1,0,0,0,0,1,0,HIGH
+0,0,0,0,0,1,0,1,0,0,LOW
+0,0,0,0,1,0,1,1,0,1,MEDIUM
+1,1,0,0,0,1,1,1,1,0,HIGH
+1,1,1,1,1,0,0,1,1,1,HIGH
+0,0,0,0,0,0,0,0,0,0,LOW

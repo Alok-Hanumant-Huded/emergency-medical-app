@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>User Profile</h1>
+  <p>Manage your personal and contact information securely.</p>
+</section>
+
+<div class="card">
+  <form method="POST" class="form-grid">
+    <label>
+      <span>Full name</span>
+      <input type="text" name="full_name" value="{{ user.full_name or '' }}" />
+    </label>
+
+    <label>
+      <span>Age</span>
+      <input type="number" name="age" value="{{ user.age or '' }}" min="0" />
+    </label>
+
+    <label>
+      <span>Phone number</span>
+      <input type="text" name="phone" value="{{ user.phone or '' }}" />
+    </label>
+
+    <label>
+      <span>Email</span>
+      <input type="email" name="email" value="{{ user.email or '' }}" required />
+    </label>
+
+    <button type="submit" class="primary-btn">Update Profile</button>
+  </form>
+</div>
+{% endblock %}
