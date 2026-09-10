@@ -23,7 +23,7 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-        from models.models import User
+        from models.models import User, Emergency
         from werkzeug.security import generate_password_hash
 
         if not User.query.filter_by(role="admin").first():
@@ -96,6 +96,13 @@ def create_app():
             db.session.add(notification)
 
             db.session.commit()
+
+        print("=== STARTUP DATABASE CHECK ===")
+        print("DEMO MODE:", app.config.get("DEMO_MODE"))
+        print("USERS:", User.query.count())
+        print("EMERGENCIES:", Emergency.query.count())
+        print("DEMO PATIENT:", User.query.filter_by(username="demo_patient").first() is not None)
+        print("=== END DATABASE CHECK ===")
 
     @app.route("/")
     def index():
