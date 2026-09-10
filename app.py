@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask
 
 from config import config
@@ -34,6 +35,66 @@ def create_app():
                 full_name="System Administrator",
             )
             db.session.add(admin_user)
+            db.session.commit()
+
+        if app.config.get("DEMO_MODE") and User.query.filter_by(username="demo_patient").first() is None:
+            from models.models import Emergency, EmergencyContact, AmbulanceRequest, Notification
+
+            demo_user = User(
+                username="demo_patient",
+                email="demo@example.com",
+                password_hash=generate_password_hash("demo123"),
+                role="user",
+                full_name="Demo Patient",
+                age=72,
+                phone="9876543210",
+                blood_group="O+",
+                allergies="None reported",
+                existing_conditions="Hypertension",
+                current_medications="Regular medication",
+                emergency_notes="Demo account for college project",
+            )
+            db.session.add(demo_user)
+            db.session.flush()
+
+            contact = EmergencyContact(
+                name="Demo Emergency Contact",
+                phone="9876500000",
+                relationship="Family",
+                user_id=demo_user.id,
+            )
+            db.session.add(contact)
+
+            emergency = Emergency(
+                user_id=demo_user.id,
+                latitude=12.9716,
+                longitude=77.5946,
+                timestamp=datetime.utcnow(),
+                emergency_type="medical",
+                risk_level="HIGH",
+                status="REQUEST RECEIVED",
+                symptoms="Chest pain and difficulty breathing",
+                details="Demo emergency record for college project",
+            )
+            db.session.add(emergency)
+            db.session.flush()
+
+            ambulance = AmbulanceRequest(
+                emergency_id=emergency.id,
+                request_id="DEMO-AMB-001",
+                status="REQUEST RECEIVED",
+            )
+            db.session.add(ambulance)
+
+            notification = Notification(
+                emergency_id=emergency.id,
+                contact_name=contact.name,
+                contact_phone=contact.phone,
+                message="DEMO ALERT: Emergency assistance requested.",
+                status="SENT",
+            )
+            db.session.add(notification)
+
             db.session.commit()
 
     @app.route("/")
